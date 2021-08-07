@@ -1,0 +1,494 @@
+
+
+<!DOCTYPE html>
+<html lang="zh -CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#303030">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+  <title>Intent—Android系统的通信桥梁 - 橙子味冰块</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>橙子味🧊的小宇宙</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Intent—Android系统的通信桥梁">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-11-14 17:11" pubdate>
+        November 14, 2020 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      46
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Intent—Android系统的通信桥梁</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Intent"><a href="#Intent" class="headerlink" title="Intent"></a>Intent</h1><h2 id="定义及作用"><a href="#定义及作用" class="headerlink" title="定义及作用"></a>定义及作用</h2><p>Intent：意图。它是Android程序中各组件之间进行交互的一种重要方式，它不仅可以<strong>启动新组件</strong>、<strong>调用别的应用程序</strong>、还可以在<strong>不同组件及应用程序之间传递数据</strong>。<br>一个Intent对象就是对一次将要执行操作的抽象描述。Intent代表了Android应用的启动意图，Android应用将会根据Intent来启动指定组件，至于到底启动哪个组件，则取决于Intent的各<strong>属性</strong>，我们稍后将会进行详细介绍。Intent负责对应用中一次操作的动作、动作涉及数据、附加数据进行描述，Android则根据此Intent的描述，负责找到对应的组件，将 Intent传递给调用的组件，并完成组件的调用。<br>我们以一段比喻来理解，比如我们平常的点外卖，把外卖看成一个个的Intent，把外卖员看成Android系统，他会根据每个外卖上面信息（地址、电话）的不同描述，向每个个人传递相关信息，把外卖送到每个人的手上，完成外卖配送这样子。Intent也是一样，携带着一定的信息，通过Android应用去判断信息进而启动新组件或应用程序、传送数据到新的组件或应用程序中。<br>Intent一般可被用于<strong>启动活动</strong>、<strong>启动服务</strong>、<strong>发送广播</strong>以及<strong>携带数据到其他组件中</strong>等场景。本节课我们将以<strong>启动活动</strong>、<strong>传递数据</strong>为主向大家讲述<strong>Intent</strong>各种神奇的作用。</p>
+<h2 id="种类"><a href="#种类" class="headerlink" title="种类"></a>种类</h2><h3 id="显式intent"><a href="#显式intent" class="headerlink" title="显式intent"></a>显式intent</h3><p>通过提供目标应用的软件包名称或完全限定的组件类名来指定可处理 Intent 的应用。它一般用在源组件已知目标组件名称的前提下，这种方式一般在应用程序内部实现。比如在某应用程序内，一个 Activity 启动一个 Service或一个Activity启动另一个Activity等。<br>我们先来试一下显式Intent如何使用。<br>新建IntentTest项目–&gt;新建second_activity.xml以及SecondActivity.java<br>在activity_main.xml文件下添加一个Button控件如下：<br><img src="https://img-blog.csdnimg.cn/20201114151327657.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTcxNTI4Ng==,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" lazyload alt="按钮"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;Button<br>        android:id=<span class="hljs-string">&quot;@+id/button_1&quot;</span><br>        android:layout_width=<span class="hljs-string">&quot;match_parent&quot;</span><br>        android:layout_height=<span class="hljs-string">&quot;wrap_content&quot;</span><br>        android:text=<span class="hljs-string">&quot;显式启动一个新的Activity&quot;</span><br>        android:layout_marginTop=<span class="hljs-string">&quot;20dp&quot;</span><br>        android:layout_marginLeft=<span class="hljs-string">&quot;20dp&quot;</span><br>        android:layout_marginRight=<span class="hljs-string">&quot;20dp&quot;</span><br>        android:onClick=<span class="hljs-string">&quot;buttonOne&quot;</span><br>        /&gt;<br></code></pre></td></tr></table></figure>
+
+<p>在MainActivity中添加点击按钮的的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">buttonOne</span><span class="hljs-params">(View view)</span></span>&#123;<br>       Intent intent = <span class="hljs-keyword">new</span> Intent(MainActivity.<span class="hljs-keyword">this</span>,SecondActivity.class);<br>       startActivity(intent);<br>   &#125;<br></code></pre></td></tr></table></figure>
+<p>并在Button控件中添加OnClick属性设置回调方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">android:onClick=<span class="hljs-string">&quot;buttonOne&quot;</span><br></code></pre></td></tr></table></figure>
+<p>因为神奇的Intent，我们通过点击按钮就可以成功的启动一个新的活动啦。<br>这个时候如果你想回到上一个活动怎么办呢，按下Back键就可以回到上一个活动了。<br>由于使用这种方法来启动活动，Intent的“意图”非常明显，因此我们称之为<strong>显式Intent</strong>。</p>
+<h3 id="隐式Intent"><a href="#隐式Intent" class="headerlink" title="隐式Intent"></a>隐式Intent</h3><p>隐式Intent就比较含蓄了，它不会指定特定的组件，也就是不会明确指出要我们启动哪一个活动，而是指定一系列action和category等信息，让系统去分析这个Intent并帮我们找出合适的活动去启动。<br>使用隐式 Intent 时，Android 系统通过将 Intent 的内容与在设备上所有应用（包括自身应用）的清单文件中声明的 Intent 过滤器进行比较，从而找到要启动的相应组件。如果 Intent 与 Intent 过滤器匹配，则系统将启动该组件，并向其传递 Intent 对象。如果多个 Intent 过滤器兼容，则系统会显示一个对话框，用户自行选取要使用的应用。<br>现在我们来试试通过隐式Intent启动一个活动。<br>再在activity_main.xml文件下添加另一个Button控件如下：<br><img src="https://img-blog.csdnimg.cn/20201114153945466.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTcxNTI4Ng==,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" lazyload alt="新按钮"><br>再新建一个新建third_activity.xml以及ThirdActivity.java文件，并在Android Manifest.xml中注册ThirdActivity，并声明本活动的Intent-Filter</p>
+<pre><code> intent-filter（Intent过滤器）：一个隐式 Intent 请求要能够传递到目标组件，必须要通过 Action、Data 以及 Category 三个属性的检查。
+ 就是说Action、Data 以及 Category是通行证， 如果他们的任何一个值不符合，该隐式Intent将不会被传递给目标组件。
+</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;activity android:name=<span class="hljs-string">&quot;.ThirdActivity&quot;</span>&gt;<br>            &lt;intent-filter&gt;<br>                &lt;action android:name=<span class="hljs-string">&quot;android.intent.action.VIEW&quot;</span>/&gt;<br>                &lt;category android:name=<span class="hljs-string">&quot;android.intent.category.DEFAULT&quot;</span>/&gt;<br>            &lt;/intent-filter&gt;<br>        &lt;/activity&gt;<br></code></pre></td></tr></table></figure>
+<p>然后到MainActivity添加点击按钮的的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">buttonTwo</span><span class="hljs-params">(View view)</span></span>&#123;<br>      Intent intent = <span class="hljs-keyword">new</span> Intent(Intent.ACTION_VIEW);<br>      intent.addCategory(<span class="hljs-string">&quot;android.intent.category.DEFAULT&quot;</span>);<br>      startActivity(intent);<br>  &#125;<br></code></pre></td></tr></table></figure>
+<p>同理，在Button控件中添加OnClick属性设置回调方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">android:onClick=<span class="hljs-string">&quot;buttonTwo&quot;</span><br></code></pre></td></tr></table></figure>
+<p>现在点击按钮，你同样成功启动一个新的活动，但不同的是你这次使用了<strong>隐式Intent</strong>的方式来启动。这就说明我们在Android Manifest.xml下配置的action以及category内容生效啦！</p>
+<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><p>Intent中包含的属性主要有：Component(目标组件),Action(动作),Category(类别), Data(数据),Type(数据类型),Extra（附加信息）,Flag（标记）这7个属性。</p>
+<h3 id="（1）Component（组件信息）"><a href="#（1）Component（组件信息）" class="headerlink" title="（1）Component（组件信息）"></a>（1）Component（组件信息）</h3><p>Intent 的 Compotent 属性指定 Intent 的目标组件的类名称。使用如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">Intent intent = <span class="hljs-keyword">new</span> Intent(context, OtherActivity.class);<br></code></pre></td></tr></table></figure>
+
+<p>Context是上下文也就是当前的activity，后面的xxx.class则是我们通过intent要启动的新活动，参考我们上面使用显式intent启动活动的例子。</p>
+<h3 id="（2）Action（动作）"><a href="#（2）Action（动作）" class="headerlink" title="（2）Action（动作）"></a>（2）Action（动作）</h3><p>代表Intent要完成的一个抽象“动作”，比如发信息的权限，而具体要由哪个组件完成，Intent并不负责！它仅仅知道有这个Action，谁来完成就要通过Intent-filter筛选。<br>Intent中的Action必须能够和Android Manifest.xml中对应组件的Intent-filter的Action匹配(这里的匹配是完全相等)。 Android Manifest.xml中对应组件的Intent-filter中可以有多个action，但是只要Intent中的action能够和Android Manifest.xml中对应组件的Intent-filter中的任何一个action相同即可匹配成功。参考上面隐式Intent调用的例子。<br><strong>常用的Action</strong><br>|  动作名称| 动作功能|<br>|–|–|<br>| ACTION_M AIN|作为一个主要的进入口，而并不期望去接受数据|<br>|ACTION_VIEW    |向用户去显示数据|<br>|ACTION_ATTACH_DATA|    别用于指定一些数据应该附属于一些其他的地方，例如，图片数据应该附属于联系人|<br>|ACTION_EDIT|访问已给的数据，提供明确的可编辑|<br>|ACTION_PICK    |从数据中选择一个子项目，并返回你所选中的项目|<br>|ACTION_CHOOSER    |显示一个 activity 选择器，允许用户在进程之前选择他们想要的|<br>|ACTION_GET_CONTENT    |允许用户选择特殊种类的数据，并返回（特殊种类的数据：照一张相片或录一段音）|<br>|ACTION_DIAL|拨打一个指定的号码，显示一个带有号码的用户界面，允许用户去启动呼叫<br>|ACTION_CALL    |根据指定的数据执行一次呼叫（ACTION_CALL 在应用中启动一次呼叫有缺陷，多数应用 ACTION_DIAL，ACTION_CALL 不能用在紧急呼叫上，紧急呼叫可以用 ACTION_DIAL 来实现）|<br>|ACTION_SEND    |传递数据，被传送的数据没有指定，接收的 action 请求用户发数据|<br>|ACTION_SENDTO    |发送一条信息到指定的某人|<br>|ACTION_ANSWER    |处理一个打进电话呼叫|<br>|ACTION_INSERT |    插入一条空项目到已给的容器|<br>|ACTION_DELETE|    从容器中删除已给的数据|<br>|ACTION_RUN|    运行数据|<br>|ACTION_SYNC    |同步执行一个数据|<br>|ACTION_PICK_ACTIVITY    |为以为的 Intent 选择一个 Activity，返回别选中的类|<br>|ACTION_SEARCH    |执行一次搜索|<br>|ACTION_WEB_SEARCH    |执行一次 web 搜索|<br>|ACTION_FACTORY_TEST    |工场测试的主要进入点|</p>
+<h3 id="（3）Category（类别）"><a href="#（3）Category（类别）" class="headerlink" title="（3）Category（类别）"></a>（3）Category（类别）</h3><p>Category用于为Action提供额外的附加类别信息，两者通常结合使用。<br>如果Intent设置了category，那么Intent中存在的所有的category都必须和Android Manifest.xml中对应组件的Intent-filter中的category相同，才能和这个Activity匹配。<br><strong>常用的Category</strong><br>|名称| 组件类别 |<br>|–|–|<br>| CATEGORY_DEFAULT|Android系统中默认的执行方式，按照普通Activity的执行方式执行|　<br>|CATEGORY_HOME|设置该组件为Home Activity|<br>|CATEGORY_PREFERENCE|设置该组件为Preference|　<br>|CATEGORY_LAUNCHER|设置为当前应用程序优先级最高的Activity，通常与ACTION_MAIN配合使用|　<br>|CATEGORY_BROWSABLE|设置该组件可以使用浏览器启动|　<br>|CATEGORY_GADGET|设置该组件可以内嵌到另外的Activity中|</p>
+<h3 id="（4）Data（数据）"><a href="#（4）Data（数据）" class="headerlink" title="（4）Data（数据）"></a>（4）Data（数据）</h3><p>通常用于向Action属性提供操作的数据，接受一个URI对象。匹配规则与Action类似。<br>下面我们通过实践来使用data隐式启动百度网页。<br>再在activity_main.xml文件下添加另一个Button控件，然后直接在MainActivity添加点击按钮的的方法，xml布局中Button控件中添加OnClick属性设置回调方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">buttonThree</span><span class="hljs-params">(View view)</span></span>&#123;<br>      Intent intent = <span class="hljs-keyword">new</span> Intent(Intent.ACTION_VIEW);<br>      intent.setData(Uri.parse(<span class="hljs-string">&quot;http://www.baidu.com&quot;</span>));<br>      startActivity(intent);<br>  &#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">android:onClick=<span class="hljs-string">&quot;buttonThree&quot;</span><br></code></pre></td></tr></table></figure>
+<p>现在点击按钮就会直接跳转到浏览器的百度页面，当然这里如果你的手机里有多个可打开网址的app，还会弹出一个对话框让你自己选择。<br>intent-filter中的data标签主要可配置以下内容：<br>|名称| 作用 |<br>|–|–|<br>| android:scheme | 用于指定数据的协议部分，如上例中的http部分 |<br>|android:host|用于指定数据的主机名部分，如上例中的<a target="_blank" rel="noopener" href="http://www.baidu.com部分|/">www.baidu.com部分|</a><br>|android:port|用于指定数据的端口部分，一般紧随在主机名之后|<br>|android:path|用于指定主机名与端口之后的部分，如一段网址中跟在域名之后的内容|<br>|android:mimeType|用于指定可以处理的数据类型，允许使用通配符的方式进行指定|<br>只有&lt;data<data>&gt;标签中指定的内容和Intent中携带的Data完全一致时，当前活动才能够响应该Intent。</p>
+<h3 id="（5）Type（数据类型）"><a href="#（5）Type（数据类型）" class="headerlink" title="（5）Type（数据类型）"></a>（5）Type（数据类型）</h3><p>Intent 的 Type 属性显示指定 Intent 的数据类型（MIME）。通常 Intent 的数据类型可以从 Data 自身判断出来，但是一旦指定了 Type 类型，就会强制使用 Type 指定的类型而不再进行推导。</p>
+<h3 id="（6）Extra（附加信息）"><a href="#（6）Extra（附加信息）" class="headerlink" title="（6）Extra（附加信息）"></a>（6）Extra（附加信息）</h3><p>Intent 的 Extra 属性用于添加一些组件的附加信息。比如，要通过一个 Activity 执行“发送电子邮件”这个动作请求，可以将电子邮件的 subject、body 等保存在 Extras 里，传给电子邮件发送组件。</p>
+<h3 id="（7）flag（标记）"><a href="#（7）flag（标记）" class="headerlink" title="（7）flag（标记）"></a>（7）flag（标记）</h3><p>flag在 Intent 类中定义，充当 Intent 的元数据。flag可以指示 Android 系统如何启动 Activity（例如，Activity 应属于哪个任务），以及启动之后如何处理（例如，Activity 是否属于最近的 Activity 列表）。</p>
+<h2 id="传值"><a href="#传值" class="headerlink" title="传值"></a>传值</h2><h3 id="（1）向下一个活动传值"><a href="#（1）向下一个活动传值" class="headerlink" title="（1）向下一个活动传值"></a>（1）向下一个活动传值</h3><p>我们上面已经学过如何显式启动一个新的activity了，现在我们来学怎么给下一个活动传值。新建一个活动FourthActivity以及fourth_layout布局，在MainActivity中我们再写一个新的方法，实例化Intent对象，通过putExtra(“name”,data)给我们实例化的intent对象设置一个值，让他可以通过startActivity将值传输到下一个活动。（这里的name是一个标识符，取值需要通过这个标识符来取，data是我们要传输的数据）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">buttonFour</span><span class="hljs-params">(View view)</span></span>&#123;<br>       Intent intent = <span class="hljs-keyword">new</span> Intent(MainActivity.<span class="hljs-keyword">this</span>, FourthActivity.class);<br>       intent.putExtra(<span class="hljs-string">&quot;extra_data&quot;</span>,<span class="hljs-string">&quot;Make it real!&quot;</span>);<br>       startActivity(intent);<br>   &#125;<br></code></pre></td></tr></table></figure>
+<p>在fourth_layout布局中添加一个TextView用来显示我们从MainActivity获得的值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;TextView<br>        android:id=<span class="hljs-string">&quot;@+id/text_1&quot;</span><br>        android:layout_width=<span class="hljs-string">&quot;match_parent&quot;</span><br>        android:layout_height=<span class="hljs-string">&quot;wrap_content&quot;</span><br>        android:layout_marginTop=<span class="hljs-string">&quot;20dp&quot;</span><br>        android:layout_marginLeft=<span class="hljs-string">&quot;20dp&quot;</span><br>        android:layout_marginRight=<span class="hljs-string">&quot;20dp&quot;</span><br>        android:text=<span class="hljs-string">&quot;这是一个用来显示由上一个Activity传过来的值的TextView&quot;</span><br>        android:gravity=<span class="hljs-string">&quot;center_horizontal&quot;</span> /&gt;<br><br></code></pre></td></tr></table></figure>
+
+<p>运行发现并没有值出现，这是因为我们传值了，但是没有在FourthActivity中把值取出来。这个时候我们需要在FourthActivity中去获取这个intent，就需要用到getIntent（）方法了，再通过intent.getStringExtra(“标识符”);来获取数据，然后用display（）方法让我们的数据显示出来吧。<br>在FourthActivity中添加代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">Intent intent = getIntent();<br>        String data = intent.getStringExtra(<span class="hljs-string">&quot;extra_data&quot;</span>);<br>        display(data);<span class="hljs-comment">//这部分添加到onCreate方法中</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">display</span><span class="hljs-params">(String data)</span></span>&#123;<br>        TextView textView = findViewById(R.id.text_1);<br>        textView.setText(data);<br>    &#125;<br></code></pre></td></tr></table></figure>
+<p>现在点击按钮，我们可以发现我们成功把值传到了下一个活动啦。这就是向下一个活动传值的方法。下面我们来介绍怎么向上一个活动返回数据。</p>
+<h3 id="（2）向上一个活动传值"><a href="#（2）向上一个活动传值" class="headerlink" title="（2）向上一个活动传值"></a>（2）向上一个活动传值</h3><p>既然可以传值给下一个活动，当然要实现返回数据给上一个活动才比较人性化呀~所以我们现在来学学如何通过intent给上一个活动返回数据。<br>首先把我们MainActivity中的的startActivity()方法改为startActivityForResult()方法。这是不影响我们向下一个活动传值的，但是通过这个方法，我们就可以在下一个活动被销毁的时候给上一个活动返回数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">startActivityForResult(intent,<span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
+<p>在activity_main中添加一个TextView控件以显示我们从FourthActivity获取到的值，并在MainActivity中添加文字显示的方法display()；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;TextView<br>        android:id=<span class="hljs-string">&quot;@+id/text_1&quot;</span><br>        android:layout_width=<span class="hljs-string">&quot;match_parent&quot;</span><br>        android:layout_height=<span class="hljs-string">&quot;wrap_content&quot;</span><br>        android:layout_marginTop=<span class="hljs-string">&quot;20dp&quot;</span><br>        android:layout_marginLeft=<span class="hljs-string">&quot;20dp&quot;</span><br>        android:layout_marginRight=<span class="hljs-string">&quot;20dp&quot;</span><br>        android:text=<span class="hljs-string">&quot;这是一个用来显示由下一个Activity传回来的值的TextView&quot;</span><br>        android:gravity=<span class="hljs-string">&quot;center_horizontal&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">display</span><span class="hljs-params">(String data)</span></span>&#123;<br>       TextView textView = findViewById(R.id.text_1);<br>       textView.setText(data);<br>   &#125;<br></code></pre></td></tr></table></figure>
+
+<p>给fourth_layout布局添加一个按钮</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;Button<br>        android:id=<span class="hljs-string">&quot;@+id/button_1&quot;</span><br>        android:layout_width=<span class="hljs-string">&quot;match_parent&quot;</span><br>        android:layout_height=<span class="hljs-string">&quot;wrap_content&quot;</span><br>        android:layout_gravity=<span class="hljs-string">&quot;center&quot;</span><br>        android:layout_marginTop=<span class="hljs-string">&quot;20dp&quot;</span><br>        android:text=<span class="hljs-string">&quot;向上一个Activity传值&quot;</span><br>        android:onClick=<span class="hljs-string">&quot;buttonBack&quot;</span>/&gt;<br></code></pre></td></tr></table></figure>
+
+<p>然后在FourthActivity中我们来写一个方法，实现点击事件并在方法中添加返回数据的逻辑。SetResult方法是专门向上一个活动返回数据的，第一个参数用于向上一个活动返回处理结果，一般只是用RESULT_OK或RESULT_CANCELED两个值；第二个参数则是我们要返回的带有数据的intent对象。最后调用finish（）方法销毁当前活动返回到上一个活动。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">buttonBack</span><span class="hljs-params">(View view)</span></span>&#123;<br>     Intent intent = <span class="hljs-keyword">new</span> Intent();<br>     intent.putExtra(<span class="hljs-string">&quot;data_return&quot;</span>,<span class="hljs-string">&quot;Let&#x27;s make it real!&quot;</span>);<br>     setResult(RESULT_OK,intent);<br>     finish();<br> &#125;<br></code></pre></td></tr></table></figure>
+<p>由于我们是使用startActivityForResult（）方法来启动下一个活动的，因此在下一个活动被销毁之后会回调上一个活动的onActivityResult（）方法，因此我们需要在MainActivity中重写该方法来获取数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br>   <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onActivityResult</span><span class="hljs-params">(<span class="hljs-keyword">int</span> requestCode, <span class="hljs-keyword">int</span> resultCode,Intent data)</span> </span>&#123;<br>       <span class="hljs-keyword">super</span>.onActivityResult(requestCode, resultCode, data);<br>       <span class="hljs-keyword">switch</span> (requestCode) &#123;<br>           <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>               <span class="hljs-keyword">if</span> (resultCode == RESULT_OK) &#123;<br>                   String returnedData = data.getStringExtra(<span class="hljs-string">&quot;data_return&quot;</span>);<br>                   Log.d(<span class="hljs-string">&quot;MainActivity&quot;</span>, returnedData);<br>                   display(returnedData);<br>               &#125;<br>               <span class="hljs-keyword">break</span>;<br>           <span class="hljs-keyword">default</span>:<br>       &#125;<br>   &#125;<br></code></pre></td></tr></table></figure>
+
+<p>onActivityResult（）方法中有三个参数，相信大家都觉得很眼熟，就是我们上面设置过的requestCode、resultCode以及带着返回数据的Intent。由于在一个活动中有可能调用startActivityForResult（）方法去启动很多不同的活动，所以requestCode的值有可能不同，所以我们需要判断requestCode的数据来源，确定数据是否是从FourActivity传过来的，再通过resultCode判断处理结果是否成功，最后再从intent中取值并把值显示出来。<br>现在点击按钮我们就能把FourthActivity中Intent设置的值传到MainActivity中并显示出来啦。</p>
+<p><strong>四大组件</strong>：<a target="_blank" rel="noopener" href="https://blog.csdn.net/xchaha/article/details/80398620">https://blog.csdn.net/xchaha/article/details/80398620</a></p>
+<pre><code> 鉴于可能还有人没去了解Android四大组件，这里推一个博客大家可以看看，我们本节课Intent就与Android四大组件之三（活动、广播、服务）密切相关)
+</code></pre>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%AC%AC%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%EF%BC%88%E7%AC%AC2%E7%89%88%EF%BC%89/20365693">郭神的《第一行代码》</a><br><a target="_blank" rel="noopener" href="https://developer.android.google.cn/guide/components/intents-filters?hl=zh-cn#Resolution">Intent和Intent过滤器</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/jijiangpeng/article/details/95929142?utm_medium=distribute.pc_relevant_t0.none-task-blog-OPENSEARCH-1.pc_relevant_is_cache&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-OPENSEARCH-1.pc_relevant_is_cache">Android Intent：不同应用程序之间通信的桥梁</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/taiyuanwuyin/article/details/77976797">Android中的Intent和Intent-filter总结</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/04/17/Android%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Android网络连接和网络数据处理</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <p><span>🧊</span></p> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

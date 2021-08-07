@@ -1,0 +1,530 @@
+
+
+<!DOCTYPE html>
+<html lang="zh -CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#303030">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+  <title>Android网络连接和网络数据处理 - 橙子味冰块</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>橙子味🧊的小宇宙</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Android网络连接和网络数据处理">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-04-17 14:40" pubdate>
+        April 17, 2021 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      29
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Android网络连接和网络数据处理</h1>
+            
+            <div class="markdown-body">
+              <h1 id="HTTP请求方式GET与POST"><a href="#HTTP请求方式GET与POST" class="headerlink" title="HTTP请求方式GET与POST"></a>HTTP请求方式GET与POST</h1><p>在Android开发中我们会接触到数据的交互，比如写入数据、读取数据等，因此我们需要使用通讯间的协议来进行请求，最常见的协议是HTTP协议，而GET和POST则是HTTP协议中最常用的两种请求方式。</p>
+<ul>
+<li>HTTP协议<br>HTTP（HyperText Transfer Protocol超文本传输协议）是一个设计来使客户端和服务器顺利进行通讯的协议。<br>HTTP在客户端和服务器之间以request-response protocol（请求-回复协议）工作。</li>
+<li>GET和POST的区别</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">GET</th>
+<th align="center">POST</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">一般是从服务器上获取数据</td>
+<td align="center">一般用来上传表单到服务器<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote">&lt;span class=”hint–top hint–rounded” aria-label=” 一般用来上传表单（数据集合）到服务器，服务器处理后再返回数据给客户端。</td>
+</tr>
+<tr>
+<td align="center">Android网络请求Android进行网络请求有三种方法：HttpURLConnection、 HttpClient以及OkHttp。HttpClient由于存在API数量过多、扩展困难等缺点，在Android6.0系统中，该功能已经被正式弃用。而原生的HttpURLConnection是JDK里提供的联网API，但是由于网络操作涉及到异步以及多线程，自己使用原生API编写比较麻烦，所以实际开发更偏向于直接使用第三方网络通信库，而我们今天要介绍的OkHttp就属于众多网络通信库中做的最出色的一个。</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">OkHttp添加OKHttp库的依赖1compile &#x27;com.squareup.okhttp3:okhttp:3.6.0&#x27;</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">声明网络权限1&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;如果使用了不安全的http链接，应该在在清单文件中声明：1android:usesCleartextTraffic=&quot;true&quot;</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">简单布局”&gt;[1]</span></a></sup></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">URL 可见，安全性低</td>
+<td align="center">URL 不可见，安全性高</td>
+</tr>
+<tr>
+<td align="center">提交的数据有长度限制</td>
+<td align="center">提交的数据无长度限制</td>
+</tr>
+<tr>
+<td align="center">数据可缓存</td>
+<td align="center">数据不可缓存</td>
+</tr>
+<tr>
+<td align="center">通过拼接URL进行参数传递</td>
+<td align="center">数据放在请求体中发送</td>
+</tr>
+</tbody></table>
+<p>现在一般使用安全性较高的POST进行请求，在发送密码或其他敏感信息时一定不能使用 GET。POST 比 GET 更安全，因为参数不会被保存在浏览器历史或 web 服务器日志中。GET的数据在 URL 中对所有人都是可见的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;Button<br>        android:id=<span class="hljs-string">&quot;@+id/btn_request&quot;</span><br>        android:layout_width=<span class="hljs-string">&quot;wrap_content&quot;</span><br>        android:layout_height=<span class="hljs-string">&quot;wrap_content&quot;</span><br>        android:text=<span class="hljs-string">&quot;请求数据&quot;</span>/&gt;<br><br>    &lt;Button<br>        android:id=<span class="hljs-string">&quot;@+id/btn_jump&quot;</span><br>        android:layout_width=<span class="hljs-string">&quot;wrap_content&quot;</span><br>        android:layout_height=<span class="hljs-string">&quot;wrap_content&quot;</span><br>        android:text=<span class="hljs-string">&quot;跳转解析页&quot;</span>/&gt;<br><br><br>    &lt;TextView<br>        android:id=<span class="hljs-string">&quot;@+id/tv_data&quot;</span><br>        android:layout_width=<span class="hljs-string">&quot;wrap_content&quot;</span><br>        android:layout_height=<span class="hljs-string">&quot;wrap_content&quot;</span>/&gt;<br></code></pre></td></tr></table></figure>
+<h3 id="OkHttp具体用法"><a href="#OkHttp具体用法" class="headerlink" title="OkHttp具体用法"></a>OkHttp具体用法</h3><ol>
+<li>定义并实例化一个OkHttpClient</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">OkHttpClient client = <span class="hljs-keyword">new</span> OkHttpClient();<br></code></pre></td></tr></table></figure>
+<ol start="2">
+<li>创建一个Request对象以发起一条HTTP请求，并通过url()方法来设置目标的网络地址。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">Request request = <span class="hljs-keyword">new</span> Request.Builder()<br>.url(<span class="hljs-string">&quot;http://106.53.96.124/wanted/public/index.php/index/article/find&quot;</span>)<br>.build();<br></code></pre></td></tr></table></figure>
+<ol start="3">
+<li>调用OkHttpClient的newCall()方法创建一个Call对象，并调用execute()方法发送请求并获取响应数据。</li>
+<li>定义一个response对象来接收获取到的响应数据，并通过responseData来取得我们返回的具体内容。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">	Response response = client.newCall(request).execute();<br>String responseData = response.body().string();<br></code></pre></td></tr></table></figure>
+<ol start="5">
+<li>由于网络请求属于耗时操作，应该在子线程中执行。因此我们在设置点击事件时，在onClick()方法中我们应该新开一个子线程。示例如下：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java">btn_request.setOnClickListener(<span class="hljs-keyword">new</span> View.OnClickListener() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span><span class="hljs-params">(View v)</span> </span>&#123;<br>                <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Runnable() &#123;<br>                    <span class="hljs-meta">@Override</span><br>                    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>                        sendRequestWithOkHttp();<span class="hljs-comment">//该方法封装了以上1-4步的内容</span><br>                    &#125;<br>                &#125;).start();<br>            &#125;<br>        &#125;);<br></code></pre></td></tr></table></figure></li>
+<li>sendRequestWithOkHttp()方法具体内容如下：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendRequestWithOkHttp</span><span class="hljs-params">()</span></span>&#123;<br>        OkHttpClient client = <span class="hljs-keyword">new</span> OkHttpClient();<br>        Request request = <span class="hljs-keyword">new</span> Request.Builder()<br>                .url(<span class="hljs-string">&quot;http://106.53.96.124/wanted/public/index.php/index/article/find&quot;</span>)<br>                .build();<br>        <span class="hljs-comment">//try catch进行异常捕捉</span><br>        <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-comment">//同步写法</span><br>            Response response = client.newCall(request).execute();<br>            String responseData = response.body().string();<br>            <span class="hljs-comment">//由于我们进行网络请求是在子线程执行，因此获取到的数据需要从子线程传递到主线程的Ui界面才能显示</span><br>            runOnUiThread(<span class="hljs-keyword">new</span> Runnable() &#123;<br>                <span class="hljs-meta">@Override</span><br>                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>                    tv_data.setText(responseData);<br>                &#125;<br>            &#125;);<br>        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;<br>            e.printStackTrace();<br>        &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="同步、异步概念"><a href="#同步、异步概念" class="headerlink" title="同步、异步概念"></a>同步、异步概念</h1><h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><p>同步方法调用一旦开始，调用者必须等到方法调用返回后，才能继续后续的行为。当前主线程会阻塞，直到子线程通知主线程为止。<br>（<strong>提交请求 → 等待服务器处理 → 处理完毕返回</strong>）</p>
+<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>异步方法调用通常会在另外一个线程中继续执行。整个过程，不会阻碍调用者的工作。主线程可以继续干其它的事情，当子线程完成任务的时候通知一下主线程就可以了，类似于接口回调或消息队列的思想。<br>（<strong>请求通过事件触发&gt;服务器处理（无需等待，主线程可以做别的事）&gt;处理完毕</strong>）<br>两者比较更推荐使用异步方法进行网络请求。</p>
+<h2 id="异步方法示例"><a href="#异步方法示例" class="headerlink" title="异步方法示例"></a>异步方法示例</h2><p>定义一个Call对象，并把把request传给call，通过call调用.enqueue()方法执行。需要给enqueue()方法传一个Callback接口的匿名实现类（包含了onFailure()和onRresponse()方法）。<br>以下是异步监听方法示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendRequestWithOkHttp</span><span class="hljs-params">()</span></span>&#123;<br>        OkHttpClient client = <span class="hljs-keyword">new</span> OkHttpClient();<br>        Request request = <span class="hljs-keyword">new</span> Request.Builder()<br>                .url(<span class="hljs-string">&quot;http://106.53.96.124/wanted/public/index.php/index/article/find&quot;</span>)<br>                .build();<br>        <span class="hljs-comment">//异步监听写法</span><br>        Call call = client.newCall(request);<br>        call.enqueue(<span class="hljs-keyword">new</span> Callback() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onFailure</span><span class="hljs-params">(<span class="hljs-meta">@NotNull</span> Call call, <span class="hljs-meta">@NotNull</span> IOException e)</span> </span>&#123;<br>                e.printStackTrace();<br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onResponse</span><span class="hljs-params">(<span class="hljs-meta">@NotNull</span> Call call, <span class="hljs-meta">@NotNull</span> Response response)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>                String jsonData = response.body().string();<br>                <span class="hljs-comment">//	传递到主线程UI界面</span><br>                runOnUiThread(<span class="hljs-keyword">new</span> Runnable() &#123;<br>                    <span class="hljs-meta">@Override</span><br>                    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>                        tv_data.setText(jsonData);<br>                    &#125;<br>                &#125;);<br>            &#125;<br>        &#125;);<br>	&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="数据解析"><a href="#数据解析" class="headerlink" title="数据解析"></a>数据解析</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>一般来说通过网络请求获取到的数据有很多种，xml格式数据、Json格式数据等。我们以上通过网络请求获取到的数据就是Json格式数据。<br>比如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">&#123;<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;alex&quot;</span>,<span class="hljs-string">&quot;age&quot;</span>:<span class="hljs-string">&quot;18&quot;</span>,<span class="hljs-string">&quot;friends&quot;</span>:[&#123;<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;Amy&quot;</span>,<span class="hljs-string">&quot;age&quot;</span>:<span class="hljs-string">&quot;19&quot;</span>&#125;,&#123;<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;Jack&quot;</span>,<span class="hljs-string">&quot;age&quot;</span>:<span class="hljs-string">&quot;18&quot;</span>&#125;]&#125;<br></code></pre></td></tr></table></figure>
+<p>以上{}中相当于是一个类的实例，[{},{}]相当于是一个有两个类组成的数组，包括了两个类的实例。</p>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><ol>
+<li>添加Gson库的依赖</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">implementation <span class="hljs-string">&#x27;com.google.code.gson:gson:2.7&#x27;</span><br></code></pre></td></tr></table></figure>
+<ol start="2">
+<li>新建一个BaseResponse&lt; T &gt;基类来接收我们从服务端获取到的数据，类的内容可以通过Gsonformat插件导入，alt+s唤出插件界面，复制我们的json格式数据，点击OK。</li>
+<li>创建一个parseJSONWithGSON()方法<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">parseJSONWithGSON</span><span class="hljs-params">()</span></span>&#123;<br>        Gson gson = <span class="hljs-keyword">new</span> Gson();<br>        <span class="hljs-comment">//由于我们这里需要解析的Json数据中包含了数组，所以需要使用TypeToken将期望解析成数据类型传入到fromJson()方法中</span><br>        BaseResponse&lt;List&lt;BaseResponse.Article&gt;&gt; baseResponse = gson.fromJson(jsonData,<span class="hljs-keyword">new</span> TypeToken&lt;BaseResponse&lt;List&lt;BaseResponse.Article&gt;&gt;&gt;()&#123;&#125;.getType());<br>        List&lt;BaseResponse.Article&gt; articleList = baseResponse.getData();<br>        Log.d(<span class="hljs-string">&quot;code&quot;</span>, <span class="hljs-string">&quot;code is &quot;</span> + baseResponse.getCode());<br>        Log.d(<span class="hljs-string">&quot;msg&quot;</span>, <span class="hljs-string">&quot;msg is &quot;</span> + baseResponse.getMsg());<br>        <span class="hljs-keyword">for</span> (BaseResponse.Article article:articleList)&#123;<br>            Log.d(<span class="hljs-string">&quot;Data&quot;</span>, <span class="hljs-string">&quot;id is &quot;</span>+article.getId());<br>            Log.d(<span class="hljs-string">&quot;Data&quot;</span>, <span class="hljs-string">&quot;title is &quot;</span>+article.getTitle());<br>            Log.d(<span class="hljs-string">&quot;Data&quot;</span>, <span class="hljs-string">&quot;content is &quot;</span>+article.getContent());<br>            Log.d(<span class="hljs-string">&quot;Data&quot;</span>, <span class="hljs-string">&quot;tags is &quot;</span>+article.getTags());<br>            Log.d(<span class="hljs-string">&quot;Data&quot;</span>, <span class="hljs-string">&quot;create_time is &quot;</span>+article.getCreate_time());<br>            Log.d(<span class="hljs-string">&quot;Data&quot;</span>, <span class="hljs-string">&quot;writer is &quot;</span>+article.getWriter());<br>            Log.d(<span class="hljs-string">&quot;Data&quot;</span>, <span class="hljs-string">&quot;images is &quot;</span>+article.getImages());<br>            Log.d(<span class="hljs-string">&quot;Data&quot;</span>, <span class="hljs-string">&quot;photo is &quot;</span>+article.getPhoto());<br>            Log.d(<span class="hljs-string">&quot;Data&quot;</span>, <span class="hljs-string">&quot;like_number is &quot;</span>+article.getLike_number());<br>            Log.d(<span class="hljs-string">&quot;Data&quot;</span>, <span class="hljs-string">&quot;comment_number is &quot;</span>+article.getComment_number());<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure></li>
+<li>在点击事件OnClick()方法中，调用parseJSONWithGSON()方法。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java">btn_show.setOnClickListener(<span class="hljs-keyword">new</span> View.OnClickListener() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span><span class="hljs-params">(View v)</span> </span>&#123;<br>                <span class="hljs-keyword">if</span> (jsonData==<span class="hljs-keyword">null</span>)&#123;<br>                    Toast.makeText(MainActivity.<span class="hljs-keyword">this</span>,<span class="hljs-string">&quot;数据为空&quot;</span>,Toast.LENGTH_SHORT).show();<br>                &#125;<br>                <span class="hljs-keyword">else</span> parseJSONWithGSON();<br>            &#125;<br>        &#125;);<br></code></pre></td></tr></table></figure>
+<h2 id="GsonFormat插件的安装"><a href="#GsonFormat插件的安装" class="headerlink" title="GsonFormat插件的安装"></a>GsonFormat插件的安装</h2></li>
+</ol>
+<p><strong>File→setting→plugin→Marketplace</strong>，搜索gsonformat/Sgsonformat/gsonfromatplus，通过<strong>alt+insert</strong>唤出gsonformat插件，复制json格式数据点击ok。</p>
+<p>接口测试：<a target="_blank" rel="noopener" href="https://getman.cn/">https://getman.cn/</a><br>接口文档：<a target="_blank" rel="noopener" href="http://www.docway.net/">http://www.docway.net/</a></p>
+<p>参考资料：<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ba6998e0dfa7">Android入门之Http请求方式Get与Post</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/67452727">同步和异步的区别</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/anny0404/p/5691379.html">同步(Synchronous)和异步(Asynchronous)</a></p>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>一般用来上传表单（数据集合）到服务器，服务器处理后再返回数据给客户端。
+<h1 id="Android网络请求"><a href="#Android网络请求" class="headerlink" title="Android网络请求"></a>Android网络请求</h1>Android进行网络请求有三种方法：HttpURLConnection、 HttpClient以及OkHttp。<br>HttpClient由于存在API数量过多、扩展困难等缺点，在Android6.0系统中，该功能已经被正式弃用。而原生的HttpURLConnection是JDK里提供的联网API，但是由于网络操作涉及到异步以及多线程，自己使用原生API编写比较麻烦，所以实际开发更偏向于直接使用第三方网络通信库，而我们今天要介绍的OkHttp就属于众多网络通信库中做的最出色的一个。
+<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><h3 id="添加OKHttp库的依赖"><a href="#添加OKHttp库的依赖" class="headerlink" title="添加OKHttp库的依赖"></a>添加OKHttp库的依赖</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">compile <span class="hljs-string">&#x27;com.squareup.okhttp3:okhttp:3.6.0&#x27;</span><br></code></pre></td></tr></table></figure>
+<h3 id="声明网络权限"><a href="#声明网络权限" class="headerlink" title="声明网络权限"></a>声明网络权限</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;uses-permission android:name=<span class="hljs-string">&quot;android.permission.INTERNET&quot;</span>/&gt;<br></code></pre></td></tr></table></figure><br>如果使用了不安全的http链接，应该在在清单文件中声明：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">android:usesCleartextTraffic=<span class="hljs-string">&quot;true&quot;</span><br></code></pre></td></tr></table></figure>
+<h3 id="简单布局"><a href="#简单布局" class="headerlink" title="简单布局"></a>简单布局</h3><a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Android/">Android</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/12/%E5%AE%89%E5%8D%93%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">安卓学习路线</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/11/14/Intent%E2%80%94Android%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%80%9A%E4%BF%A1%E6%A1%A5%E6%A2%81/">
+                        <span class="hidden-mobile">Intent—Android系统的通信桥梁</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <p><span>🧊</span></p> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
